@@ -6,7 +6,6 @@ from flask import Flask, jsonify, request, render_template, g, url_for, session,
 from werkzeug.utils import secure_filename
 from flask_restful import Api, Resource
 from pymongo import MongoClient
-import pdf2image
 from reportlab.pdfgen import canvas
 from PyPDF2 import PdfFileWriter, PdfFileReader
 import os
