@@ -1,0 +1,32 @@
+<title>App to sign a PDF</title>
+<div style="float:right">
+<button onclick="window.location='{{url_for('dropsession')}}' " type="submit"> LogOut </button>
+</div>
+<h1>Welcome {{ user }} to the Document Sign WebApp</h1>
+<h2>Please upload PDF file to be signed</h2>
+<p>
+	{% with messages = get_flashed_messages() %}
+	  {% if messages %}
+		<ul class=flashes>
+		{% for message in messages %}
+		  <li>{{ message }}</li>
+		{% endfor %}
+		</ul>
+	  {% endif %}
+	{% endwith %}
+</p>
+
+<form method="post" action="/upload" enctype="multipart/form-data">
+    <dl>
+		<p>
+			<input type="file" name="file" autocomplete="off" required>
+		</p>
+    </dl>
+    <p>
+		<input type="submit" value="Upload">
+	</p>
+</form>
+
+<!-- <form method="post" action='/download'> -->
+<!-- <button name="generate_pdf" onclick="submit"> Generate Signed PDF </button> -->
+<!-- </form> -->

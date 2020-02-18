@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Doc Sign</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+<!-- <h1>Welcome {{ user }} to the protected page</h1> -->
+<div style="float:right">
+<button onclick="window.location='{{url_for('dropsession')}}' " type="submit"> LogOut </button>
+</div>
+<h1> Please draw your signature </h1>
+<div id="sketch">
+    <canvas id="paint" style="border: 1px solid black"></canvas>
+</div>
+<div id="settings"> Colours
+    <button onclick="getColor('blue');">Blue</button>
+    <button onclick="getColor('red');">Red</button>
+    <button onclick="getColor('black');">Black</button>
+    <button onclick="getColor('white');">White</button>
+    <button onclick="getColor('white');">Eraser</button>
+</div>
+<div id="settings"> Brush Size
+    <button onclick="getSize('2');">Small</button>
+    <button onclick="getSize('5');">Med</button>
+    <button onclick="getSize('10');">Large</button>
+    <button onclick="getSize('20');">X Large</button>
+</div>
+<br>
+<br>
+<div>
+    <button type="button" id="btnDownload"> Done </button>
+    <!-- <button onclick="window.location='{{ url_for('dropsession') }}' " type="submit"> LogOut</button> -->
+    <br>
+    <br>
+  <button onclick="window.location='{{url_for('pos')}}'"> Specify Co-ordinated on the next page </button>
+
+</div>
+<!-- <button >  </button> -->
+
+
+</body>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script>
+    var canvas = document.getElementById('paint');
+    var ctx = canvas.getContext('2d');
+
+    var sketch = document.getElementById('sketch');
+    var sketch_style = getComputedStyle(sketch);
+    canvas.width = 500;
+    canvas.height = 250;
+
+    var mouse = {x: 0, y: 0};
+
+    /* Mouse Capturing Work */
+    canvas.addEventListener('mousemove', function (e) {
+        mouse.x = e.pageX - this.offsetLeft;
+        mouse.y = e.pageY - this.offsetTop;
+    }, false);
+
+    /* Drawing on Paint App */
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+    // ctx.fillStyle="blue";
+    ctx.strokeStyle = "red";
+
+    function getColor(colour) {
+        ctx.strokeStyle = colour;
+    }
+
+    function getSize(size) {
+        ctx.lineWidth = size;
+    }
+
+
+    //ctx.strokeStyle =
+    //ctx.strokeStyle = document.settings.colour[1].value;
+
+    canvas.addEventListener('mousedown', function (e) {
+        ctx.beginPath();
+        ctx.moveTo(mouse.x, mouse.y);
+
+        canvas.addEventListener('mousemove', onPaint, false);
+    }, false);
+
+    canvas.addEventListener('mouseup', function () {
+        canvas.removeEventListener('mousemove', onPaint, false);
+    }, false);
+
+    var onPaint = function () {
+        ctx.lineTo(mouse.x, mouse.y);
+        ctx.stroke();
+    };
+
+    var btnDownload = document.getElementById('btnDownload');
+
+    btnDownload.addEventListener("click", function () {
+        var dataURL = canvas.toDataURL("image/png");
+        var json = {image: dataURL};
+        $.ajax({
+            type: "POST",
+            contentType: 'application/json',
+            url: "/upload-sign",
+            data: JSON.stringify(json),
+        }).done(function (o) {
+            console.log('saved');
+        });
+
+
+        // if(window.navigator.msSaveBlob){
+        //   window.navigator.msSaveBlob(canvas.msToBlob(), "sign.png")
+        // } else {
+        //   const a=document.createElement("a");
+        //   // document.body.appendChild(a);
+        //   a.href = canvas.toDataURL();
+
+        //   a.download = "sign.png";
+        //   a.click();
+        //   // document.body.removeChild(a);
+        // }
+    });
+</script>
+</html>

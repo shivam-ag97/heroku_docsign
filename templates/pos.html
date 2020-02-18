@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Specify co-ordinates</title>
+</head>
+<body>
+
+<div>
+<form  method="post" action="{{ url_for('gen_pdf_from_sign') }}">
+  <label for="x">X-coordinate:</label><br>
+  <input type="number" id="x" name="x"><br>
+  <label for="y">Y-coordinate:</label><br>
+  <input type="number" id="y" name="y">
+  <input type="submit" value="Submit">
+</form>
+</div>
+<br>
+<br>
+
+
+
+<!-- <button onclick="window.location='{{url_for('return_files')}}'"> Download Here </button> -->
+</body>
+</html>
