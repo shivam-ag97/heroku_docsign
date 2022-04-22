@@ -35,7 +35,7 @@ pydotplus==2.0.2
 pymongo==3.10.1
 pyparsing==2.4.6
 pyPdf==1.13
-PyPDF2==1.26.0
+PyPDF2==1.27.5
 python-dateutil==2.8.1
 python-dotenv==0.10.5
 pytz==2019.3
